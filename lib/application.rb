@@ -40,8 +40,10 @@ class Application
     books = Book.where('title LIKE ?', "%#{term}%")
 
     if books.any?
+      # are there any books that have that keyword currently in the db
       render(books)
     else
+      # if there's not, make a request to api
       response = RestClient.get("https://www.googleapis.com/books/v1/volumes?q=#{term}")
       data = JSON.parse(response.body)
 
